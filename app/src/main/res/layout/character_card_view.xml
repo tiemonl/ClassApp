@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/character_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -24,13 +24,13 @@
 
         <TextView
             android:id="@+id/character_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/character_image"
             app:layout_constraintTop_toTopOf="parent"
+            android:maxLines="2"
             tools:text="@string/character_name"
             android:layout_margin="16dp"/>
-
         <TextView
             android:id="@+id/character_description"
             android:layout_width="wrap_content"
