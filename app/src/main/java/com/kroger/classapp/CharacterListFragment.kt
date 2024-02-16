@@ -23,8 +23,17 @@ class CharacterListFragment : Fragment() {
 
         val characterNames = listOf("Rick", "Morty", "Summer", "Beth")
 
+        val characterImages = listOf(
+            "https://rickandmortyapi.com/api/character/avatar/100.jpeg",
+            "https://rickandmortyapi.com/api/character/avatar/23.jpeg",
+            "https://rickandmortyapi.com/api/character/avatar/3.jpeg",
+            "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+            "https://rickandmortyapi.com/api/character/avatar/26.jpeg",
+            "https://rickandmortyapi.com/api/character/avatar/24.jpeg",
+            )
+
         for (i in 0..30) {
-            characters.add(createCharacter(i, characterNames.random()))
+            characters.add(createCharacter(i, characterNames.random(), characterImages.random()))
         }
 
         val adapter = RickAndMortyCharacterAdapter(characters)
@@ -33,9 +42,9 @@ class CharacterListFragment : Fragment() {
         return view
     }
 
-    private fun createCharacter(id: Int, name: String) = RickAndMortyCharacter(
+    private fun createCharacter(id: Int, name: String, image: String) = RickAndMortyCharacter(
         name = name,
-        picture = R.drawable.ic_launcher_background,
+        picture = image,
         age = Random.nextInt(10, 99),
         id = id,
         planet = "patrioque",
