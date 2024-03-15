@@ -1,4 +1,4 @@
-package com.kroger.classapp
+package com.kroger.classapp.model
 
 data class RickAndMortyCharacter(
     val name: String,
