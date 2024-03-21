@@ -55,4 +55,11 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.dagger:hilt-android:2.51")
     ksp("com.google.dagger:hilt-compiler:2.51")
+
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.retrofit2:retrofit:2.10.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.10.0")
+    implementation("com.squareup.moshi:moshi:1.15.0")
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
 }

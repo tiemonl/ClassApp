@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.kroger.classapp.databinding.ActivityMainBinding
 import com.kroger.classapp.ui.CharacterListFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

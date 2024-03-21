@@ -1,45 +1,38 @@
 package com.kroger.classapp.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kroger.classapp.data.model.RickAndMortyResponse
+import com.kroger.classapp.data.repository.RickAndMortyRepository
 import com.kroger.classapp.model.RickAndMortyCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.random.Random
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 
 @HiltViewModel
-class RickAndMortyCharacterViewModel @Inject constructor() : ViewModel() {
-    private val characters = mutableListOf<RickAndMortyCharacter>()
+class RickAndMortyCharacterViewModel @Inject constructor(
+    private val rickAndMortyRepository: RickAndMortyRepository,
+) : ViewModel() {
 
-    private val characterNames = listOf("Rick", "Morty", "Summer", "Beth")
+    private val _characters = MutableStateFlow<RickAndMortyCharacterEvent>(RickAndMortyCharacterEvent.Loading)
+    val characters: StateFlow<RickAndMortyCharacterEvent> = _characters
 
-    private val characterImages = listOf(
-        "https://rickandmortyapi.com/api/character/avatar/100.jpeg",
-        "https://rickandmortyapi.com/api/character/avatar/23.jpeg",
-        "https://rickandmortyapi.com/api/character/avatar/3.jpeg",
-        "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
-        "https://rickandmortyapi.com/api/character/avatar/26.jpeg",
-        "https://rickandmortyapi.com/api/character/avatar/24.jpeg",
-    )
-
-    init {
-        createCharacters()
+    fun fillData() = viewModelScope.launch {
+            when (val response = rickAndMortyRepository.getCharacters()) {
+                RickAndMortyResponse.Error -> _characters.value = RickAndMortyCharacterEvent.Failure
+                is RickAndMortyResponse.Success -> _characters.value = RickAndMortyCharacterEvent.Success(response.characters)
+            }
     }
 
-    fun fillData() = characters.toList()
-
-    fun fetchById(id: Int) = characters.first { it.id == id }
-
-    private fun createCharacters() = (0..30).map { id ->
-        characters.add(
-            RickAndMortyCharacter(
-                name = characterNames.random(),
-                picture = characterImages.random(),
-                age = Random.nextInt(10, 99),
-                id = id,
-                planet = "patrioque",
-                relation = listOf(),
-            )
-        )
+    sealed class RickAndMortyCharacterEvent {
+        data class Success(val characters: List<RickAndMortyCharacter>) : RickAndMortyCharacterEvent()
+        data object Failure : RickAndMortyCharacterEvent()
+        data object Loading : RickAndMortyCharacterEvent()
     }
 
 }
